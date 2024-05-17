@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import {
   Concert,
-  ConcertCreateRequest,
-  ConcertData,
 } from './entity/concert.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ConcertCreateRequest, ConcertData } from './dto/concert.dto';
 
 @Injectable()
 export class ConcertService {

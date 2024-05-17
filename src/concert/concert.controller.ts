@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ConcertService } from './concert.service';
-import { ConcertCreateRequest, ConcertData } from './entity/concert.entity';
+import { ConcertCreateRequest, ConcertData } from './dto/concert.dto';
 
 @Controller('concert')
 export class ConcertController {
