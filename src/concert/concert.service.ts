@@ -1,22 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import {
   Concert,
-} from './entity/concert.entity';
+  ReserveTransaction,
+} from './entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConcertCreateRequest, ConcertData } from './dto/concert.dto';
+import { ConcertCreateRequest, ConcertData, ReserveTransactionData, ReserveTransactionDto } from './dto';
 
 @Injectable()
 export class ConcertService {
   constructor(
     @InjectRepository(Concert)
     private concertEntity: Repository<Concert>,
+    @InjectRepository(ReserveTransaction)
+    private transactionEntity: Repository<ReserveTransaction>,
   ) {}
 
   public async createConcert(concert: ConcertCreateRequest): Promise<boolean> {
     const conCertExist = await this.concertEntity.findOne({
       where: { name: concert.name },
     });
+    
     if (conCertExist) {
       return false;
     }
@@ -27,6 +31,11 @@ export class ConcertService {
     }
 
     return true;
+  }
+
+  public async getAllTransaction(): Promise<ReserveTransactionData[]> {
+    const transaction = await this.transactionEntity.find();
+    return transaction;
   }
 
   public async updateConcert(concert: ConcertData): Promise<boolean> {
@@ -51,6 +60,18 @@ export class ConcertService {
     return concerts;
   }
 
+  public async getConcertById(id: string): Promise<ConcertData> {
+    const concert = await this.concertEntity.findOne({
+      where: { id },
+    });
+
+    if (!concert) {
+      return null;
+    }
+
+    return concert;
+  }
+
   public async deleteConcert(id: string): Promise<boolean> {
     const conCertExist = await this.concertEntity.findOne({
       where: { id },
@@ -67,4 +88,6 @@ export class ConcertService {
 
     return true;
   }
+
+  
 }

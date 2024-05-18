@@ -38,5 +38,17 @@ describe('ConcertService', () => {
       expect(actualResult).toEqual(concertMock.data);
       expect(mockConcertEntity.find).toHaveBeenCalledTimes(1);
     });
+
+    describe('getConcerts', () => {
+      it('should return an empty array if there is no concert', async () => {
+        mockConcertEntity.find.mockResolvedValue([]);
+
+        const actualResult = await concertService.getConcerts();
+
+        expect(actualResult).toEqual([]);
+        expect(mockConcertEntity.find).toHaveBeenCalledTimes(1);
+      })
+    });
+
   });
 });
