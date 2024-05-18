@@ -21,11 +21,10 @@ export class ConcertController {
   async getConcerts(@Query('id') id: string) {
     if (!id) return this.concertService.getConcerts();
 
-    const concert = await this.concertService.getConcertById(id)
+    const concert = await this.concertService.getConcertById(id);
 
-    if (!concert) throw new HttpException(null,HttpStatus.BAD_REQUEST);
+    if (!concert) throw new HttpException(null, HttpStatus.BAD_REQUEST);
     return concert;
-
   }
 
   @Get('/transaction')
@@ -35,16 +34,19 @@ export class ConcertController {
 
   @Post()
   async createConcert(@Body() concert: ConcertCreateRequest) {
-    if (!this.concertService.createConcert(concert)) throw new HttpException('',HttpStatus.BAD_REQUEST);
+    if (!this.concertService.createConcert(concert))
+      throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
 
   @Delete(':id')
   async deleteConcert(@Param('id') id: string) {
-    if (!this.concertService.deleteConcert(id)) throw new HttpException('',HttpStatus.BAD_REQUEST);
+    if (!this.concertService.deleteConcert(id))
+      throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
 
   @Put()
   async updateConcert(@Body() concert: ConcertData) {
-    if (!this.concertService.updateConcert(concert)) throw new HttpException('',HttpStatus.BAD_REQUEST);
+    if (!this.concertService.updateConcert(concert))
+      throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
 }

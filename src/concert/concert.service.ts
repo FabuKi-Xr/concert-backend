@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Concert,
-  ReserveTransaction,
-} from './entity';
+import { Concert, ReserveTransaction } from './entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConcertCreateRequest, ConcertData, ReserveTransactionData, ReserveTransactionDto } from './dto';
+import {
+  ConcertCreateRequest,
+  ConcertData,
+  ReserveTransactionData,
+} from './dto';
 
 @Injectable()
 export class ConcertService {
@@ -20,7 +21,7 @@ export class ConcertService {
     const conCertExist = await this.concertEntity.findOne({
       where: { name: concert.name },
     });
-    
+
     if (conCertExist) {
       return false;
     }
@@ -88,6 +89,4 @@ export class ConcertService {
 
     return true;
   }
-
-  
 }

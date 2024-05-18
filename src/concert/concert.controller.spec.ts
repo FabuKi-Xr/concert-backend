@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConcertController } from './concert.controller';
 import { ConcertService } from './concert.service';
-import { Concert} from './entity/concert.entity';
+import { Concert } from './entity/concert.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { mockConcertEntity } from './mock/concert.mock';
 

@@ -14,4 +14,3 @@ export class Concert {
   @Column()
   seats: number;
 }
-

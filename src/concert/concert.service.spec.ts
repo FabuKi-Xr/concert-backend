@@ -47,8 +47,7 @@ describe('ConcertService', () => {
 
         expect(actualResult).toEqual([]);
         expect(mockConcertEntity.find).toHaveBeenCalledTimes(1);
-      })
+      });
     });
-
   });
 });
