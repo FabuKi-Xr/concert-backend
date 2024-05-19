@@ -9,6 +9,9 @@ export class ReserveTransaction {
   @Column()
   concertName: string;
 
+  @Column('uuid',{name: 'user_id'})
+  userId : string;
+
   @Column()
   username: string;
 

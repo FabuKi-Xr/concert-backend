@@ -32,8 +32,14 @@ export class ConcertController {
     return await this.concertService.getAllTransaction();
   }
 
+  @Get('/transaction/:userId')
+  async getTransactionByUserId(@Param('userId') userId: string) {
+    return await this.concertService.getTransactionByUserId(userId);
+  }
+
   @Post()
   async createConcert(@Body() concert: ConcertCreateRequest) {
+    console.log("hi")
     if (!this.concertService.createConcert(concert))
       throw new HttpException('', HttpStatus.BAD_REQUEST);
   }

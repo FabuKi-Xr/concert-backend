@@ -8,7 +8,7 @@ export class Concert {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'text' })
   description: string;
 
   @Column()

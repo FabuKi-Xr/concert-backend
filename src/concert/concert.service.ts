@@ -39,6 +39,14 @@ export class ConcertService {
     return transaction;
   }
 
+  public async getTransactionByUserId(userId: string): Promise<ReserveTransactionData[]> {
+    const transaction = await this.transactionEntity.find({
+      where: { userId },
+    });
+
+    return transaction;
+  }
+  
   public async updateConcert(concert: ConcertData): Promise<boolean> {
     const conCertExist = await this.concertEntity.findOne({
       where: { id: concert.id },
