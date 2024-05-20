@@ -1,7 +1,8 @@
 import { Action } from '../.types';
 
 export interface ReserveTransactionDto {
-  concertName: string;
+  concertName: string; 
+  userId: string;
   username: string;
   action: Action;
   datetime: string;
