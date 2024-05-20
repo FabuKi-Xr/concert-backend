@@ -4,6 +4,8 @@ import { ConcertService } from './concert.service';
 import { Concert } from './entity/concert.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { mockConcertEntity } from './mock/concert.mock';
+import { ReserveTransaction } from './entity';
+import { mockTransactionEntity } from './mock';
 
 describe('ConcertController', () => {
   let controller: ConcertController;
@@ -17,6 +19,10 @@ describe('ConcertController', () => {
           provide: getRepositoryToken(Concert),
           useValue: mockConcertEntity,
         },
+        {
+          provide: getRepositoryToken(ReserveTransaction),
+          useValue: mockTransactionEntity,
+        }
       ],
     }).compile();
 

@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { ConcertService } from './concert.service';
 import { ConcertCreateRequest, ConcertData } from './dto/concert.dto';
+import { ReserveTransactionData, ReserveTransactionDto } from './dto';
 
 @Controller('concert')
 export class ConcertController {
@@ -36,6 +37,13 @@ export class ConcertController {
   async getTransactionByUserId(@Param('userId') userId: string) {
     return await this.concertService.getTransactionByUserId(userId);
   }
+
+  @Post('/transaction')
+  async createTransaction(@Body() transaction: ReserveTransactionDto) {
+    if (!this.concertService.createTransaction(transaction))
+      throw new HttpException('', HttpStatus.BAD_REQUEST);
+  }
+
 
   @Post()
   async createConcert(@Body() concert: ConcertCreateRequest) {
