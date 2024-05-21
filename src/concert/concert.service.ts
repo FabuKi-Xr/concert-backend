@@ -52,20 +52,12 @@ export class ConcertService {
   }
 
   public async createTransaction(transaction: ReserveTransactionDto): Promise<boolean> {
-    console.log(transaction)
-    try{
-      const newTransaction = await this.transactionEntity.save(transaction);
-      if (!newTransaction) {
-        return false;
-      }
-  
-      return true;
-    }
-    catch(e){
+    const newTransaction = await this.transactionEntity.save(transaction);
+    if (!newTransaction) {
       return false;
     }
-    
-    
+
+    return true;
   }
 
   public async updateTransaction(transaction: ReserveTransactionData): Promise<boolean> {
