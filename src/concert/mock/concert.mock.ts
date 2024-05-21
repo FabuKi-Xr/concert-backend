@@ -21,6 +21,6 @@ export const mockConcertEntity = {
   find: jest.fn(),
   findOne: jest.fn(),
   save: jest.fn(),
-  updateOne: jest.fn(),
-  deleteOne: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
 };

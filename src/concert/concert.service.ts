@@ -6,6 +6,7 @@ import {
   ConcertCreateRequest,
   ConcertData,
   ReserveTransactionData,
+  ReserveTransactionDto,
 } from './dto';
 
 @Injectable()
@@ -35,16 +36,45 @@ export class ConcertService {
   }
 
   public async getAllTransaction(): Promise<ReserveTransactionData[]> {
-    const transaction = await this.transactionEntity.find();
+    const transaction = await this.transactionEntity.find({
+      order: { datetime: 'DESC'},
+    });
     return transaction;
   }
 
   public async getTransactionByUserId(userId: string): Promise<ReserveTransactionData[]> {
     const transaction = await this.transactionEntity.find({
       where: { userId },
+      order: { datetime: 'DESC'},
     });
 
     return transaction;
+  }
+
+  public async createTransaction(transaction: ReserveTransactionDto): Promise<boolean> {
+    const newTransaction = await this.transactionEntity.save(transaction);
+    if (!newTransaction) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public async updateTransaction(transaction: ReserveTransactionData): Promise<boolean> {
+    const transactionExist = await this.transactionEntity.findOne({
+      where: { id: transaction.id },
+    });
+
+    if (!transactionExist) {
+      return false;
+    }
+
+    const updateTransaction = await this.transactionEntity.update(transaction.id, transaction);
+    if (!updateTransaction) {
+      return false;
+    }
+
+    return true;
   }
   
   public async updateConcert(concert: ConcertData): Promise<boolean> {

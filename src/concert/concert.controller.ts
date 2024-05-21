@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { ConcertService } from './concert.service';
 import { ConcertCreateRequest, ConcertData } from './dto/concert.dto';
+import { ReserveTransactionDto } from './dto';
 
 @Controller('concert')
 export class ConcertController {
@@ -37,22 +38,32 @@ export class ConcertController {
     return await this.concertService.getTransactionByUserId(userId);
   }
 
+  @Post('/transaction')
+  async createTransaction(@Body() transaction: ReserveTransactionDto) {
+    const isSuccess = await this.concertService.createTransaction(transaction)
+    if (!isSuccess)
+      throw new HttpException('', HttpStatus.BAD_REQUEST);
+  }
+
+
   @Post()
   async createConcert(@Body() concert: ConcertCreateRequest) {
-    console.log("hi")
-    if (!this.concertService.createConcert(concert))
-      throw new HttpException('', HttpStatus.BAD_REQUEST);
+    const isSuccess = await this.concertService.createConcert(concert);
+    if (!isSuccess)
+      throw new HttpException("", HttpStatus.BAD_REQUEST);
   }
 
   @Delete(':id')
   async deleteConcert(@Param('id') id: string) {
-    if (!this.concertService.deleteConcert(id))
-      throw new HttpException('', HttpStatus.BAD_REQUEST);
+    const isSuccess = await this.concertService.deleteConcert(id)
+    if (!isSuccess)
+      throw new HttpException("", HttpStatus.BAD_REQUEST);
   }
 
   @Put()
   async updateConcert(@Body() concert: ConcertData) {
-    if (!this.concertService.updateConcert(concert))
+    const isSuccess = await this.concertService.updateConcert(concert)
+    if (!isSuccess)
       throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
 }
