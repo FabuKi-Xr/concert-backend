@@ -6,15 +6,14 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { concertMock, mockConcertEntity } from './mock/concert.mock';
 import { ReserveTransaction } from './entity';
 import { mockTransactionEntity, transactionMock } from './mock';
-import { mock } from 'node:test';
-import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
 
 describe('ConcertController', () => {
   let controller: ConcertController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ ],
+      imports: [],
       controllers: [ConcertController],
       providers: [
         ConcertService,
@@ -25,7 +24,7 @@ describe('ConcertController', () => {
         {
           provide: getRepositoryToken(ReserveTransaction),
           useValue: mockTransactionEntity,
-        }
+        },
       ],
     }).compile();
 
@@ -43,8 +42,8 @@ describe('ConcertController', () => {
   describe('getConcerts', () => {
     it('should return an array of mocking concerts', async () => {
       mockConcertEntity.find.mockResolvedValue(concertMock.data);
-      const actualResult = await controller.getConcerts(null) as Concert[];
-      
+      const actualResult = (await controller.getConcerts(null)) as Concert[];
+
       expect(actualResult).toEqual(concertMock.data);
       expect(mockConcertEntity.find).toHaveBeenCalledTimes(1);
     });
@@ -63,7 +62,7 @@ describe('ConcertController', () => {
 
       const actualResult = controller.getConcerts('1');
       await expect(actualResult).rejects.toThrow();
-      await expect(actualResult).rejects.toBeInstanceOf(HttpException)
+      await expect(actualResult).rejects.toBeInstanceOf(HttpException);
       expect(mockConcertEntity.findOne).toHaveBeenCalledTimes(1);
     });
   });
@@ -92,7 +91,9 @@ describe('ConcertController', () => {
     it('should create a transaction', async () => {
       mockTransactionEntity.save.mockResolvedValue(transactionMock[0]);
 
-      const actualResult = await controller.createTransaction(transactionMock[0]);
+      const actualResult = await controller.createTransaction(
+        transactionMock[0],
+      );
 
       expect(actualResult).toBeUndefined();
       expect(mockTransactionEntity.save).toBeTruthy();
@@ -114,10 +115,14 @@ describe('ConcertController', () => {
 
     it('should throw an error if concert already exists', async () => {
       mockConcertEntity.findOne.mockResolvedValue(concertMock.data[0]);
-      const {name,description,seats} = {...concertMock.data[0]}
-      const actualResult = controller.createConcert({name,description,seats});
+      const { name, description, seats } = { ...concertMock.data[0] };
+      const actualResult = controller.createConcert({
+        name,
+        description,
+        seats,
+      });
 
-      await expect(actualResult).rejects.toThrow("");
+      await expect(actualResult).rejects.toThrow('');
       await expect(actualResult).rejects.toBeInstanceOf(HttpException);
       expect(mockConcertEntity.findOne).toHaveBeenCalledTimes(1);
     });
@@ -139,7 +144,7 @@ describe('ConcertController', () => {
 
       const actualResult = controller.deleteConcert('1');
 
-      await expect(actualResult).rejects.toThrow("");
+      await expect(actualResult).rejects.toThrow('');
       await expect(actualResult).rejects.toBeInstanceOf(HttpException);
       expect(mockConcertEntity.findOne).toHaveBeenCalledTimes(1);
       expect(mockConcertEntity.delete).toHaveBeenCalledTimes(0);
@@ -163,12 +168,10 @@ describe('ConcertController', () => {
 
       const actualResult = controller.updateConcert(concertMock.data[0]);
 
-      await expect(actualResult).rejects.toThrow("");
+      await expect(actualResult).rejects.toThrow('');
       await expect(actualResult).rejects.toBeInstanceOf(HttpException);
       expect(mockConcertEntity.findOne).toHaveBeenCalledTimes(1);
       expect(mockConcertEntity.update).toHaveBeenCalledTimes(0);
     });
-    
   });
-
 });

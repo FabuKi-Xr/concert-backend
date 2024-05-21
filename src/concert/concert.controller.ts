@@ -40,30 +40,25 @@ export class ConcertController {
 
   @Post('/transaction')
   async createTransaction(@Body() transaction: ReserveTransactionDto) {
-    const isSuccess = await this.concertService.createTransaction(transaction)
-    if (!isSuccess)
-      throw new HttpException('', HttpStatus.BAD_REQUEST);
+    const isSuccess = await this.concertService.createTransaction(transaction);
+    if (!isSuccess) throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
-
 
   @Post()
   async createConcert(@Body() concert: ConcertCreateRequest) {
     const isSuccess = await this.concertService.createConcert(concert);
-    if (!isSuccess)
-      throw new HttpException("", HttpStatus.BAD_REQUEST);
+    if (!isSuccess) throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
 
   @Delete(':id')
   async deleteConcert(@Param('id') id: string) {
-    const isSuccess = await this.concertService.deleteConcert(id)
-    if (!isSuccess)
-      throw new HttpException("", HttpStatus.BAD_REQUEST);
+    const isSuccess = await this.concertService.deleteConcert(id);
+    if (!isSuccess) throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
 
   @Put()
   async updateConcert(@Body() concert: ConcertData) {
-    const isSuccess = await this.concertService.updateConcert(concert)
-    if (!isSuccess)
-      throw new HttpException('', HttpStatus.BAD_REQUEST);
+    const isSuccess = await this.concertService.updateConcert(concert);
+    if (!isSuccess) throw new HttpException('', HttpStatus.BAD_REQUEST);
   }
 }
